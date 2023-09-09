@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page errorPage = "login.jsp" %>
+<%@ page errorPage = "erro-login.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Cadastro</title>
 </head>
-<body bgcolor="lightyellow">
+<body >
 
 <center>
 <hr>
@@ -17,23 +17,24 @@
 <b><font color="#2196f3">Usuario:</font></b><br/> <center><img src="cadiado.png" width="18px" height="18px"><input type="text" name="usuario" value=""/><br><br></center>
 <b><font color="#2196f3">Senha:</font></b><br/> <center><img src="cadiado.png" width="18px" height="18px"><input type="password" name="senha" value=""/> <br></center>
 <p><font background-color="#2196f3"><input type="submit" value="logar"/></font></p>
-  </form>
-  </center>
+</form>
+</center>
+  
+<%
+String usuario = request.getParameter("usuario");
+String senha = request.getParameter("senha");
 
-  
-  <%
-  
-  String usuario = request.getParameter("usuario");
-  String senha = request.getParameter("senha");
-  
-  
-  if(usuario!=null && senha!=null && !usuario.isEmpty() && !senha.isEmpty()){
-	  session.setAttribute("usuario", usuario);
-	  response.sendRedirect("dadosPessoais.jsp");
-  }
-  %>
-  
-  
-  
+if(usuario != null && senha != null && !usuario.isEmpty() && !senha.isEmpty()) {
+    try {
+        int senhaInt = Integer.parseInt(senha); 
+        session.setAttribute("usuario", usuario);
+        session.setAttribute("senha", senhaInt);
+        response.sendRedirect("dadosPessoais.jsp");
+    } catch (NumberFormatException e) {
+        response.sendRedirect("erro-login.jsp");
+    }
+}
+%>
+
 </body>
 </html>
